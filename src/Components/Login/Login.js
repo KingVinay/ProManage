@@ -90,7 +90,7 @@ const Login = () => {
           </button>
         </form>
         <p>Have no account yet ?</p>
-        <Link to="/register" className={styles.registerButton}>
+        <Link to="/" className={styles.registerButton}>
           Register
         </Link>
       </div>

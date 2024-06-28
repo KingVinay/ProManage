@@ -1,6 +1,8 @@
 .registerContainer {
   display: flex;
   height: 100vh;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
 }
 
 .leftContainer {
