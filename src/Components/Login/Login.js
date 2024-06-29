@@ -10,6 +10,7 @@ import envelopeIcon from "../../Assets/envelopeicon.png";
 import lockIcon from "../../Assets/lockicon.png";
 import eyeIcon from "../../Assets/eyeicon.png";
 import eyeSlashIcon from "../../Assets/eyeslash.png";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +28,11 @@ const Login = () => {
           password,
         }
       );
-      localStorage.setItem("token", response?.data?.token);
+      const token = response?.data?.token;
+      const userData = jwtDecode(token);
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", userData.name);
+      localStorage.setItem("email", userData.email);
       toast.success("Login Successful");
       navigate("/dashboard");
     } catch (error) {

@@ -3,33 +3,55 @@
 }
 
 .settingsContent {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
   width: 80%;
   padding: 20px;
+  margin-top: 1.2rem;
 }
 
-.formGroup {
-  margin-bottom: 20px;
+.settingsContent span {
+  font-size: 1.3rem;
 }
 
-.formGroup label {
-  display: block;
-  margin-bottom: 5px;
+.form {
+  width: 30%;
+  margin-top: 3.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.formGroup input,
-.formGroup select {
-  width: 15rem;
-  padding: 8px;
-  margin-bottom: 10px;
+.inputGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 8px;
+  border-radius: 6px;
+  color: #828282;
 }
 
-.button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+.inputGroup img {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.inputGroup input {
   border: none;
-  border-radius: 5px;
+  outline: none;
+  flex: 1;
+  padding-left: 10px;
+  font-size: 1rem;
+  font-weight: 100;
+}
+
+.updateButton {
+  background-color: #17a2b8;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 22px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
