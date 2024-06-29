@@ -5,6 +5,7 @@ import Login from "./Components/Login/Login";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Settings from "./Components/Settings/Settings";
 import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoute";
+import Analytics from "./Components/Analytics/Analytics";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
           <Route
             path="/dashboard"
             element={<ProtectedRoute Component={Dashboard} />}
+          />
+          <Route
+            path="/analytics"
+            element={<ProtectedRoute Component={Analytics} />}
           />
           <Route
             path="/settings"

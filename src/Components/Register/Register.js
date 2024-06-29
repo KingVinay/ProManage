@@ -77,6 +77,7 @@ const Register = () => {
               type="email"
               placeholder="Email"
               value={email}
+              autoComplete="new-email"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -86,6 +87,7 @@ const Register = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
