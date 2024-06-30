@@ -1,0 +1,40 @@
+.taskBox {
+  width: 15rem;
+  height: 27rem;
+  min-width: 15rem;
+  background-color: #eef2f5;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.taskBoxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.collapseButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.taskCards {
+  margin-top: 10px;
+  max-height: 400px;
+}
+
+.collapsed {
+  display: none;
+}

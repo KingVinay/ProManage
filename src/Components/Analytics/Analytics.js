@@ -45,7 +45,10 @@ const Analytics = () => {
     };
 
     fetchTaskData();
-  }, [token]);
+  });
+
+  const formatValue = (value) =>
+    value !== 0 && value < 10 ? `0${value}` : value;
 
   return (
     <div className={styles.analyticsContainer}>
@@ -58,28 +61,28 @@ const Analytics = () => {
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>Backlog Tasks</span>
-                <span>{taskData.backlog}</span>
+                <span>{formatValue(taskData.backlog)}</span>
               </div>
             </div>
             <div className={styles.boxItem}>
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>To-do Tasks</span>
-                <span>{taskData.todo}</span>
+                <span>{formatValue(taskData.todo)}</span>
               </div>
             </div>
             <div className={styles.boxItem}>
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>In-Progress Tasks</span>{" "}
-                <span>{taskData.inProgress}</span>
+                <span>{formatValue(taskData.inProgress)}</span>
               </div>
             </div>
             <div className={styles.boxItem}>
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>Completed Tasks</span>
-                <span>{taskData.completed}</span>
+                <span>{formatValue(taskData.completed)}</span>
               </div>
             </div>
           </div>
@@ -88,28 +91,28 @@ const Analytics = () => {
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>Low Priority</span>
-                <span> {taskData.lowPriority}</span>
+                <span> {formatValue(taskData.lowPriority)}</span>
               </div>
             </div>
             <div className={styles.boxItem}>
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>Moderate Priority</span>
-                <span> {taskData.moderatePriority}</span>
+                <span> {formatValue(taskData.moderatePriority)}</span>
               </div>
             </div>
             <div className={styles.boxItem}>
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>High Priority</span>
-                <span>{taskData.highPriority}</span>
+                <span>{formatValue(taskData.highPriority)}</span>
               </div>
             </div>
             <div className={styles.boxItem}>
               <span className={styles.bullet}>&#8226;</span>
               <div className={styles.taskBox}>
                 <span>Due Date Tasks</span>
-                <span>{taskData.dueDateTasks}</span>
+                <span>{formatValue(taskData.dueDateTasks)}</span>
               </div>
             </div>
           </div>

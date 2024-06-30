@@ -1,0 +1,66 @@
+.taskCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.taskCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bullet {
+  margin-right: 10px;
+}
+
+.taskActions {
+  display: flex;
+  gap: 5px;
+}
+
+.taskTitle {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.taskChecklist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checklistItems {
+  margin-top: 10px;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.dueDate {
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.overdue {
+  background-color: red;
+  color: white;
+}
+
+.taskSectionButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.taskSectionButtons button {
+  padding: 5px;
+  cursor: pointer;
+}
