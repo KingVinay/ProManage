@@ -16,7 +16,7 @@ const ProtectedRoute = (props) => {
   if (isAuthenticated) {
     return <Component />;
   } else {
-    toast.error("Unauthorised Access!");
+    toast.error("Please Login to your account!");
     return <Navigate to="/login" />;
   }
 };

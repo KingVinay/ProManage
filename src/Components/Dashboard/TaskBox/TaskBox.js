@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import styles from "./TaskBox.module.css";
 import TaskCard from "../TaskCard/TaskCard";
+import CollapseAllIcon from "../../../Assets/collapseall.png";
+import AddIcon from "../../../Assets/plus.png";
 
 const TaskBox = ({ section, tasks = [] }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const handleCollapse = () => {
+  const handleCollapseAll = () => {
     setIsCollapsed(!isCollapsed);
   };
 
@@ -18,21 +20,29 @@ const TaskBox = ({ section, tasks = [] }) => {
     <div className={styles.taskBox}>
       <div className={styles.taskBoxHeader}>
         <span>{section.charAt(0).toUpperCase() + section.slice(1)}</span>
-        {section === "todo" && (
-          <button className={styles.addButton} onClick={handleAddTask}>
-            +
-          </button>
-        )}
-        <button className={styles.collapseButton} onClick={handleCollapse}>
-          {isCollapsed ? "Expand" : "Collapse"}
-        </button>
+        <div>
+          {section === "to do" && (
+            <button className={styles.addButton} onClick={handleAddTask}>
+              <img src={AddIcon} alt="add" />
+            </button>
+          )}
+          <img
+            className={styles.collapseAllButton}
+            onClick={handleCollapseAll}
+            src={CollapseAllIcon}
+            alt="collapse all"
+          />
+        </div>
       </div>
-      <div
-        className={`${styles.taskCards} ${isCollapsed ? styles.collapsed : ""}`}
-      >
+      <div className={styles.taskCards}>
         {tasks.length !== 0 &&
           tasks.map((task) => (
-            <TaskCard key={task._id} task={task} section={section} />
+            <TaskCard
+              key={task._id}
+              task={task}
+              section={section}
+              isCollapsed={isCollapsed}
+            />
           ))}
       </div>
     </div>

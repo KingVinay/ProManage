@@ -1,28 +1,101 @@
 .taskCard {
-  background-color: white;
+  background-color: #fff;
+  padding: 15px;
   border-radius: 8px;
-  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+  position: relative;
 }
 
-.taskCardHeader {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.bullet {
-  margin-right: 10px;
+.priority {
+  display: flex;
+  align-items: center;
 }
 
-.taskActions {
+.priority span {
+  font-size: 0.6rem;
+  color: #707070;
+}
+
+.priorityBullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.priorityLow {
+  background-color: #63c05b;
+}
+
+.priorityModerate {
+  background-color: #18b0ff;
+}
+
+.priorityHigh {
+  background-color: #ff2473;
+}
+
+.assignedPerson {
   display: flex;
-  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffebeb;
+  color: black;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  margin-left: 10px;
+}
+
+.burgerMenu {
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.menuContent {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 20px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.menuContent.open {
+  display: block;
+}
+
+.menuItem {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background-color: #f0f0f0;
 }
 
 .taskTitle {
   margin-top: 10px;
+  width: 8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-weight: bold;
+}
+.taskTitle:hover {
+  overflow: visible;
 }
 
 .taskChecklist {
@@ -39,28 +112,54 @@
 .checklistItem {
   display: flex;
   align-items: center;
+  border: solid 0.5px #e2e2e2;
+  border-radius: 4px;
+  padding: 5px;
   margin-top: 5px;
 }
 
-.dueDate {
+.checklistItem span {
+  margin-left: 5px;
+}
+
+.taskButtons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   margin-top: 10px;
-  padding: 5px;
-  border-radius: 4px;
+}
+
+.dueDate {
+  width: 55px;
+  height: 15px;
+  font-size: 9px;
+  margin-top: 10px;
+  padding: 3px;
+  padding-top: 4px;
+  border-radius: 8px;
   text-align: center;
 }
 
 .overdue {
-  background-color: red;
+  background-color: #cf3636;
   color: white;
 }
 
 .taskSectionButtons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-top: 10px;
 }
 
 .taskSectionButtons button {
-  padding: 5px;
+  width: 55px;
+  height: 25px;
+  font-size: 8px;
+  background-color: #eeecec;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  margin-left: 5px;
+  padding: 3px;
   cursor: pointer;
 }
