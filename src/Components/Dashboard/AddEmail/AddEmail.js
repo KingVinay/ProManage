@@ -49,7 +49,7 @@ const AddEmail = ({ onClose }) => {
           </div>
         )}
         {step === 2 && (
-          <div>
+          <div className={styles.resultEmail}>
             <h2>{email} added to the board</h2>
             <button onClick={() => onClose()} className={styles.confirmButton}>
               Okay, got it!

@@ -109,7 +109,7 @@ const Register = () => {
           <div className={styles.inputGroup}>
             <img src={lockIcon} alt="lock icon" />
             <input
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}

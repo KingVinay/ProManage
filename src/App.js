@@ -6,10 +6,13 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Settings from "./Components/Settings/Settings";
 import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoute";
 import Analytics from "./Components/Analytics/Analytics";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="/" element={<Register />} />

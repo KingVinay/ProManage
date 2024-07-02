@@ -17,24 +17,6 @@ const Dashboard = () => {
   const [filters, setFilters] = useState("week");
   const [tasks, setTasks] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchAllTasks = async () => {
-  //     try {
-  //       const response = await axios({
-  //         method: "get",
-  //         url: `${process.env.REACT_APP_BACKEND_HOST}/api/task/all`,
-  //         headers: { Authorization: `${token}` },
-  //       });
-
-  //       setTasks(response.data);
-  //       console.log(tasks);
-  //     } catch (error) {
-  //       console.error("Error fetching all tasks:", error);
-  //     }
-  //   };
-  //   fetchAllTasks();
-  // }, []);
-
   const fetchFilteredTasks = async (filters) => {
     try {
       const response = await axios({
@@ -42,8 +24,8 @@ const Dashboard = () => {
         url: `${process.env.REACT_APP_BACKEND_HOST}/api/task/filteredTasks?filter=${filters}`,
         headers: { Authorization: `${token}` },
       });
-      console.log(tasks);
       setTasks(response.data);
+      console.log(tasks);
     } catch (error) {
       console.error("Error fetching filtered tasks:", error);
     }
@@ -85,10 +67,30 @@ const Dashboard = () => {
           </div>
         </div>
         <div className={styles.taskBoxes}>
-          <TaskBox section="backlog" tasks={tasks["backlogTasks"]} />
-          <TaskBox section="to do" tasks={tasks["todoTasks"]} />
-          <TaskBox section="in Progress" tasks={tasks["inProgressTasks"]} />
-          <TaskBox section="done" tasks={tasks["completedTasks"]} />
+          <TaskBox
+            section="backlog"
+            tasks={tasks["backlogTasks"]}
+            allTasks={tasks}
+            setTasks={setTasks}
+          />
+          <TaskBox
+            section="to do"
+            tasks={tasks["todoTasks"]}
+            allTasks={tasks}
+            setTasks={setTasks}
+          />
+          <TaskBox
+            section="in Progress"
+            tasks={tasks["inProgressTasks"]}
+            allTasks={tasks}
+            setTasks={setTasks}
+          />
+          <TaskBox
+            section="done"
+            tasks={tasks["completedTasks"]}
+            allTasks={tasks}
+            setTasks={setTasks}
+          />
         </div>
       </div>
       <ToastContainer />

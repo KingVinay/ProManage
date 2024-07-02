@@ -5,9 +5,21 @@ import burgerIcon from "../../../Assets/burger.png";
 import collapseIcon from "../../../Assets/Arrow.png";
 import formatDueDate from "../../../Utils/DueDateFormat";
 
-const TaskCard = ({ task, section, isCollapsed }) => {
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const TaskCard = ({
+  task,
+  section,
+  isCollapsed,
+  handleChangeTaskSection,
+  handleDeleteTask,
+}) => {
   const [isChecklistCollapsed, setIsChecklistCollapsed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const token = localStorage.getItem("token");
+  const [isCheck, setIsCheck] = useState(false);
+  const [deleteQuizId, setDeleteQuizId] = useState(null);
 
   const handleToggleChecklist = () => {
     setIsChecklistCollapsed(!isChecklistCollapsed);
@@ -37,34 +49,41 @@ const TaskCard = ({ task, section, isCollapsed }) => {
     return initials;
   };
 
-  const handleCheckItem = async (checklistItemId) => {
-    // Logic to check/uncheck an item
+  const handleCheckItem = async (taskId, checklistId, checked) => {
+    task.checklists = task.checklists.map((item) =>
+      item._id === checklistId ? { ...item, checked: checked } : item
+    );
+
+    setIsCheck(!isCheck);
+
+    try {
+      await axios({
+        method: "patch",
+        url: `${process.env.REACT_APP_BACKEND_HOST}/api/task/updateChecklistChecked/${taskId}`,
+        headers: { Authorization: `${token}` },
+        data: { checklistId, checked },
+      });
+    } catch (error) {
+      console.error("Error updating checklist item:", error);
+    }
   };
 
   const handleEditTask = () => {
     // Logic to edit a task
   };
 
-  const handleShareTask = () => {
-    // Logic to share a task
-  };
-
-  const handleDeleteTask = async () => {
+  const handleShareTask = async (taskId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/task/${task._id}`);
+      const response = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_BACKEND_HOST}/api/task/shareTask/${taskId}`,
+        headers: { Authorization: `${token}` },
+      });
+      navigator.clipboard.writeText(response.data.shareableLink);
+      toast.success("Share Link copied");
     } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
-
-  const handleChangeTaskSection = async (taskId, newSection) => {
-    try {
-      await axios.patch(
-        `http://localhost:4000/api/task/updateTaskSection/${taskId}`,
-        { taskSection: newSection }
-      );
-    } catch (error) {
-      console.error("Error changing task section:", error);
+      console.error("Error sharing quiz:", error);
+      toast.error("Failed to copy link");
     }
   };
 
@@ -100,13 +119,13 @@ const TaskCard = ({ task, section, isCollapsed }) => {
             </div>
             <div
               className={styles.menuItem}
-              onClick={() => handleShareTask(task)}
+              onClick={() => handleShareTask(task._id)}
             >
               Share
             </div>
             <div
-              className={styles.menuItem}
-              onClick={() => handleDeleteTask(task)}
+              className={styles.menuDeleteItem}
+              onClick={() => setDeleteQuizId(task._id)}
             >
               Delete
             </div>
@@ -134,7 +153,9 @@ const TaskCard = ({ task, section, isCollapsed }) => {
                 type="checkbox"
                 style={{ accentColor: "#17A2B8" }}
                 checked={item.checked}
-                onChange={() => handleCheckItem(item._id)}
+                onChange={(e) =>
+                  handleCheckItem(task._id, item._id, e.target.checked)
+                }
               />
               <span>{item.description}</span>
             </div>
@@ -145,9 +166,9 @@ const TaskCard = ({ task, section, isCollapsed }) => {
         {task.dueDate && (
           <div
             className={`${styles.dueDate} ${
-              new Date(task.dueDate) < new Date() && task.section !== "done"
+              new Date(task.dueDate) < new Date() && section !== "done"
                 ? styles.overdue
-                : ""
+                : styles.completed
             }`}
           >
             {formatDueDate(task.dueDate)}
@@ -168,7 +189,7 @@ const TaskCard = ({ task, section, isCollapsed }) => {
           )}
           {section !== "in Progress" && (
             <button
-              onClick={() => handleChangeTaskSection(task._id, "inProgress")}
+              onClick={() => handleChangeTaskSection(task._id, "in progress")}
             >
               PROGRESS
             </button>
@@ -182,6 +203,20 @@ const TaskCard = ({ task, section, isCollapsed }) => {
           )}
         </div>
       </div>
+      {deleteQuizId && (
+        <div className={styles.modalBox}>
+          <div className={styles.modalBoxContent}>
+            <p>Are you sure you want to Delete ?</p>
+            <div className={styles.modalButtons}>
+              <button onClick={() => handleDeleteTask(deleteQuizId)}>
+                Yes, Delete
+              </button>
+              <button onClick={() => setDeleteQuizId(null)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+      <ToastContainer />
     </div>
   );
 };

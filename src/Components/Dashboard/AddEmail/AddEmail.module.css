@@ -65,3 +65,11 @@
   color: #cf3636;
   background-color: white;
 }
+
+.resultEmail {
+  display: flex;
+  color: black;
+  margin-top: 2rem;
+  flex-flow: column;
+  align-items: center;
+}
