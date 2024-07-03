@@ -118,7 +118,6 @@ const TaskBox = ({ section, tasks = [], allTasks = [], setTasks }) => {
           {isModalOpen && (
             <AddTask
               allTasks={allTasks}
-              setTasks={setTasks}
               onClose={() => setIsModalOpen(false)}
             />
           )}
@@ -136,6 +135,7 @@ const TaskBox = ({ section, tasks = [], allTasks = [], setTasks }) => {
             <TaskCard
               key={task._id}
               task={task}
+              allTasks={allTasks}
               section={section}
               isCollapsed={isCollapsed}
               handleChangeTaskSection={handleChangeTaskSection}

@@ -4,6 +4,7 @@ import styles from "./TaskCard.module.css";
 import burgerIcon from "../../../Assets/burger.png";
 import collapseIcon from "../../../Assets/Arrow.png";
 import formatDueDate from "../../../Utils/DueDateFormat";
+import EditTask from "../../EditTask/EditTask";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +21,7 @@ const TaskCard = ({
   const token = localStorage.getItem("token");
   const [isCheck, setIsCheck] = useState(false);
   const [deleteQuizId, setDeleteQuizId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleChecklist = () => {
     setIsChecklistCollapsed(!isChecklistCollapsed);
@@ -68,10 +70,6 @@ const TaskCard = ({
     }
   };
 
-  const handleEditTask = () => {
-    // Logic to edit a task
-  };
-
   const handleShareTask = async (taskId) => {
     try {
       const response = await axios({
@@ -88,138 +86,143 @@ const TaskCard = ({
   };
 
   return (
-    <div className={styles.taskCard}>
-      <div className={styles.header}>
-        <div className={styles.priority}>
+    <>
+      <ToastContainer />
+      <div className={styles.taskCard}>
+        <div className={styles.header}>
+          <div className={styles.priority}>
+            <div
+              className={`${styles.priorityBullet} ${getPriorityClass(
+                task.priority
+              )}`}
+            />
+            <span>{task.priority.toUpperCase() + " PRIORITY"}</span>
+            {task.assignPerson && (
+              <div className={styles.assignedPerson}>
+                {getInitials(task.assignPerson)}
+              </div>
+            )}
+          </div>
           <div
-            className={`${styles.priorityBullet} ${getPriorityClass(
-              task.priority
-            )}`}
-          />
-          <span>{task.priority.toUpperCase() + " PRIORITY"}</span>
-          {task.assignPerson && (
-            <div className={styles.assignedPerson}>
-              {getInitials(task.assignPerson)}
-            </div>
-          )}
-        </div>
-        <div
-          className={styles.burgerMenu}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <img src={burgerIcon} alt="burgericon" />
-          <div
-            className={`${styles.menuContent} ${menuOpen ? styles.open : ""}`}
+            className={styles.burgerMenu}
+            onClick={() => setMenuOpen(!menuOpen)}
           >
+            <img src={burgerIcon} alt="burgericon" />
             <div
-              className={styles.menuItem}
-              onClick={() => handleEditTask(task)}
+              className={`${styles.menuContent} ${menuOpen ? styles.open : ""}`}
             >
-              Edit
-            </div>
-            <div
-              className={styles.menuItem}
-              onClick={() => handleShareTask(task._id)}
-            >
-              Share
-            </div>
-            <div
-              className={styles.menuDeleteItem}
-              onClick={() => setDeleteQuizId(task._id)}
-            >
-              Delete
+              <div
+                className={styles.menuItem}
+                onClick={() => setIsModalOpen(true)}
+              >
+                Edit
+              </div>
+              <div
+                className={styles.menuItem}
+                onClick={() => handleShareTask(task._id)}
+              >
+                Share
+              </div>
+              <div
+                className={styles.menuDeleteItem}
+                onClick={() => setDeleteQuizId(task._id)}
+              >
+                Delete
+              </div>
             </div>
           </div>
+          {isModalOpen && (
+            <EditTask taskId={task._id} onClose={() => setIsModalOpen(false)} />
+          )}
         </div>
-      </div>
-      <div className={styles.taskTitle}>{task.title}</div>
-      <div className={styles.taskChecklist}>
-        <span>
-          {`Checklist (${
-            task.checklists.filter((item) => item.checked).length
-          }/${task.checklists.length})`}
-        </span>
-        <img
-          onClick={handleToggleChecklist}
-          src={collapseIcon}
-          alt="collapseIcon"
-        />
-      </div>
-      {!isChecklistCollapsed && (
-        <div className={styles.checklistItems}>
-          {task.checklists.map((item) => (
-            <div key={item._id} className={styles.checklistItem}>
-              <input
-                type="checkbox"
-                style={{ accentColor: "#17A2B8" }}
-                checked={item.checked}
-                onChange={(e) =>
-                  handleCheckItem(task._id, item._id, e.target.checked)
-                }
-              />
-              <span>{item.description}</span>
-            </div>
-          ))}
+        <div className={styles.taskTitle}>{task.title}</div>
+        <div className={styles.taskChecklist}>
+          <span>
+            {`Checklist (${
+              task.checklists.filter((item) => item.checked).length
+            }/${task.checklists.length})`}
+          </span>
+          <img
+            onClick={handleToggleChecklist}
+            src={collapseIcon}
+            alt="collapseIcon"
+          />
         </div>
-      )}
-      <div className={styles.taskButtons}>
-        {task.dueDate && (
-          <div
-            className={`${styles.dueDate} ${
-              section === "done"
-                ? styles.completed
-                : new Date(task.dueDate) < new Date()
-                ? styles.overdue
-                : ""
-            }`}
-          >
-            {formatDueDate(task.dueDate)}
+        {!isChecklistCollapsed && (
+          <div className={styles.checklistItems}>
+            {task.checklists.map((item) => (
+              <div key={item._id} className={styles.checklistItem}>
+                <input
+                  type="checkbox"
+                  style={{ accentColor: "#17A2B8" }}
+                  checked={item.checked}
+                  onChange={(e) =>
+                    handleCheckItem(task._id, item._id, e.target.checked)
+                  }
+                />
+                <span>{item.description}</span>
+              </div>
+            ))}
           </div>
         )}
-        <div className={styles.taskSectionButtons}>
-          {section !== "backlog" && (
-            <button
-              onClick={() => handleChangeTaskSection(task._id, "backlog")}
+        <div className={styles.taskButtons}>
+          {task.dueDate && (
+            <div
+              className={`${styles.dueDate} ${
+                section === "done"
+                  ? styles.completed
+                  : new Date(task.dueDate) < new Date()
+                  ? styles.overdue
+                  : ""
+              }`}
             >
-              BACKLOG
-            </button>
-          )}
-          {section !== "to do" && (
-            <button onClick={() => handleChangeTaskSection(task._id, "todo")}>
-              TODO
-            </button>
-          )}
-          {section !== "in Progress" && (
-            <button
-              onClick={() => handleChangeTaskSection(task._id, "in progress")}
-            >
-              PROGRESS
-            </button>
-          )}
-          {section !== "done" && (
-            <button
-              onClick={() => handleChangeTaskSection(task._id, "completed")}
-            >
-              DONE
-            </button>
-          )}
-        </div>
-      </div>
-      {deleteQuizId && (
-        <div className={styles.modalBox}>
-          <div className={styles.modalBoxContent}>
-            <p>Are you sure you want to Delete ?</p>
-            <div className={styles.modalButtons}>
-              <button onClick={() => handleDeleteTask(deleteQuizId)}>
-                Yes, Delete
-              </button>
-              <button onClick={() => setDeleteQuizId(null)}>Cancel</button>
+              {formatDueDate(task.dueDate)}
             </div>
+          )}
+          <div className={styles.taskSectionButtons}>
+            {section !== "backlog" && (
+              <button
+                onClick={() => handleChangeTaskSection(task._id, "backlog")}
+              >
+                BACKLOG
+              </button>
+            )}
+            {section !== "to do" && (
+              <button onClick={() => handleChangeTaskSection(task._id, "todo")}>
+                TODO
+              </button>
+            )}
+            {section !== "in Progress" && (
+              <button
+                onClick={() => handleChangeTaskSection(task._id, "in progress")}
+              >
+                PROGRESS
+              </button>
+            )}
+            {section !== "done" && (
+              <button
+                onClick={() => handleChangeTaskSection(task._id, "completed")}
+              >
+                DONE
+              </button>
+            )}
           </div>
         </div>
-      )}
-      <ToastContainer />
-    </div>
+        {deleteQuizId && (
+          <div className={styles.modalBox}>
+            <div className={styles.modalBoxContent}>
+              <p>Are you sure you want to Delete ?</p>
+              <div className={styles.modalButtons}>
+                <button onClick={() => handleDeleteTask(deleteQuizId)}>
+                  Yes, Delete
+                </button>
+                <button onClick={() => setDeleteQuizId(null)}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
