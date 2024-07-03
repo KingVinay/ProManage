@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filters, setFilters] = useState("week");
   const [tasks, setTasks] = useState([]);
+  const [check, setCheck] = useState(false);
 
   const fetchFilteredTasks = async (filters) => {
     try {
@@ -33,7 +34,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchFilteredTasks(filters);
-  }, [filters]);
+  }, [filters, check]);
 
   return (
     <div className={styles.boardContainer}>
@@ -72,28 +73,31 @@ const Dashboard = () => {
             tasks={tasks["backlogTasks"]}
             allTasks={tasks}
             setTasks={setTasks}
+            setCheck={setCheck}
           />
           <TaskBox
             section="to do"
             tasks={tasks["todoTasks"]}
             allTasks={tasks}
             setTasks={setTasks}
+            setCheck={setCheck}
           />
           <TaskBox
             section="in Progress"
             tasks={tasks["inProgressTasks"]}
             allTasks={tasks}
             setTasks={setTasks}
+            setCheck={setCheck}
           />
           <TaskBox
             section="done"
             tasks={tasks["completedTasks"]}
             allTasks={tasks}
             setTasks={setTasks}
+            setCheck={setCheck}
           />
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

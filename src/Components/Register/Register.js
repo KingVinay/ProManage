@@ -21,27 +21,70 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match!");
-      return;
+
+    let valid = true;
+    if (!(name.trim().length > 0)) {
+      setNameError(true);
+      valid = false;
+    } else {
+      setNameError(false);
     }
 
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_BACKEND_HOST}/api/auth/register`,
-        {
-          name,
-          email,
-          password,
-          confirmPassword,
-        }
-      );
-      toast.success("Registered Successfully!");
-      navigate("/login");
-    } catch (error) {
-      toast.error("Registration Failed!");
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!(email.trim().length > 0)) {
+      setEmailError(true);
+      valid = false;
+    } else {
+      if (isValidEmail(email)) {
+        setEmailError(false);
+      } else {
+        setEmailError(true);
+      }
+    }
+
+    if (!(password.trim().length > 0)) {
+      setPasswordError(true);
+      valid = false;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (!(confirmPassword.trim().length > 0)) {
+      setConfirmPasswordError(true);
+      valid = false;
+    } else {
+      setConfirmPasswordError(false);
+    }
+
+    if (valid) {
+      if (password !== confirmPassword) {
+        toast.error("Passwords do not match!");
+        return;
+      }
+
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_BACKEND_HOST}/api/auth/register`,
+          {
+            name,
+            email,
+            password,
+            confirmPassword,
+          }
+        );
+        toast.success("Registered Successfully!");
+        navigate("/login");
+      } catch (error) {
+        toast.error("Registration Failed!");
+      }
     }
   };
 
@@ -60,7 +103,7 @@ const Register = () => {
       </div>
       <div className={styles.rightContainer}>
         <span>Register</span>
-        <form onSubmit={handleRegister} className={styles.form}>
+        <form onSubmit={handleRegister} className={styles.form} noValidate>
           <div className={styles.inputGroup}>
             <img src={userIcon} alt="user icon" />
             <input
@@ -71,6 +114,12 @@ const Register = () => {
               required
             />
           </div>
+          {nameError ? (
+            <p className={styles.error}>Please fill correctly</p>
+          ) : (
+            <></>
+          )}
+
           <div className={styles.inputGroup}>
             <img src={envelopeIcon} alt="envelope icon" />
             <input
@@ -82,6 +131,12 @@ const Register = () => {
               required
             />
           </div>
+          {emailError ? (
+            <p className={styles.error}>Please fill Email correctly!</p>
+          ) : (
+            <></>
+          )}
+
           <div className={styles.inputGroup}>
             <img src={lockIcon} alt="lock icon" />
             <input
@@ -106,6 +161,12 @@ const Register = () => {
               />
             )}
           </div>
+          {passwordError ? (
+            <p className={styles.error}>Please fill Password correctly!</p>
+          ) : (
+            <></>
+          )}
+
           <div className={styles.inputGroup}>
             <img src={lockIcon} alt="lock icon" />
             <input
@@ -129,6 +190,14 @@ const Register = () => {
               />
             )}
           </div>
+          {confirmPasswordError ? (
+            <p className={styles.error}>
+              Please fill Confirm Password correctly!
+            </p>
+          ) : (
+            <></>
+          )}
+
           <button type="submit" className={styles.registerButton}>
             Register
           </button>
@@ -138,7 +207,6 @@ const Register = () => {
           Log in
         </Link>
       </div>
-      <ToastContainer />
     </div>
   );
 };

@@ -208,7 +208,7 @@ const AddTask = ({ allTasks, onClose }) => {
 
           <div className={styles.checklistGroup}>
             <label>
-              checklists ({checklists.filter((item) => item.checked).length}/
+              Checklists ({checklists.filter((item) => item.checked).length}/
               {checklists.length})<span>*</span>
             </label>
             {checklists.map((item) => (
@@ -265,7 +265,6 @@ const AddTask = ({ allTasks, onClose }) => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

@@ -9,7 +9,13 @@ import AddTask from "../../AddTask/AddTask";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const TaskBox = ({ section, tasks = [], allTasks = [], setTasks }) => {
+const TaskBox = ({
+  section,
+  tasks = [],
+  allTasks = [],
+  setCheck,
+  setTasks,
+}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const token = localStorage.getItem("token");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -136,6 +142,7 @@ const TaskBox = ({ section, tasks = [], allTasks = [], setTasks }) => {
               key={task._id}
               task={task}
               allTasks={allTasks}
+              setCheck={setCheck}
               section={section}
               isCollapsed={isCollapsed}
               handleChangeTaskSection={handleChangeTaskSection}

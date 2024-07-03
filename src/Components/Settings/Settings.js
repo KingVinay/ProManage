@@ -152,7 +152,6 @@ const Settings = () => {
           </button>
         </form>
       </div>
-      <ToastContainer />
     </div>
   );
 };

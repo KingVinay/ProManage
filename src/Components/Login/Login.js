@@ -18,8 +18,34 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    let valid = true;
+
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!(email.trim().length > 0)) {
+      setEmailError(true);
+      valid = false;
+    } else {
+      if (isValidEmail(email)) {
+        setEmailError(false);
+      } else {
+        setEmailError(true);
+      }
+    }
+
+    if (!(password.trim().length > 0)) {
+      setPasswordError(true);
+      valid = false;
+    } else {
+      setPasswordError(false);
+    }
+
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_HOST}/api/auth/login`,
@@ -55,7 +81,7 @@ const Login = () => {
       </div>
       <div className={styles.rightContainer}>
         <span>Login</span>
-        <form onSubmit={handleLogin} className={styles.form}>
+        <form onSubmit={handleLogin} className={styles.form} noValidate>
           <div className={styles.inputGroup}>
             <img src={envelopeIcon} alt="envelope icon" />
             <input
@@ -66,6 +92,11 @@ const Login = () => {
               required
             />
           </div>
+          {emailError ? (
+            <p className={styles.error}>Please fill Email correctly!</p>
+          ) : (
+            <></>
+          )}
           <div className={styles.inputGroup}>
             <img src={lockIcon} alt="lock icon" />
             <input
@@ -89,6 +120,11 @@ const Login = () => {
               />
             )}
           </div>
+          {passwordError ? (
+            <p className={styles.error}>Please fill Password correctly!</p>
+          ) : (
+            <></>
+          )}
 
           <button type="submit" className={styles.loginButton}>
             Log in
@@ -99,7 +135,6 @@ const Login = () => {
           Register
         </Link>
       </div>
-      <ToastContainer />
     </div>
   );
 };

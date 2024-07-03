@@ -8,7 +8,7 @@ import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const EditTask = ({ taskId, onClose }) => {
+const EditTask = ({ taskId, setCheck, onClose }) => {
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("");
   const [assignedPerson, setAssignedPerson] = useState("");
@@ -16,9 +16,10 @@ const EditTask = ({ taskId, onClose }) => {
   const [checklists, setChecklists] = useState([]);
   const [addedPeople, setAddedPeople] = useState([]);
   const [initialData, setInitialData] = useState(null);
+  const [renderCheck, setRenderCheck] = useState(false);
+
   const token = localStorage.getItem("token");
   const userEmail = localStorage.getItem("email");
-  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     const fetchAddedPeople = async () => {
@@ -43,8 +44,11 @@ const EditTask = ({ taskId, onClose }) => {
         const taskData = response.data;
         setTitle(taskData.title);
         setPriority(taskData.priority);
+        if (taskData.assignPerson !== "") {
+          setAssignedPerson(taskData.assignPerson);
+        }
         setAssignedPerson(taskData.assignPerson);
-        setDueDate(new Date(taskData.dueDate));
+        setDueDate(taskData.dueDate);
         setChecklists(taskData.checklists);
         setInitialData(taskData);
       } catch (error) {
@@ -104,13 +108,13 @@ const EditTask = ({ taskId, onClose }) => {
   const handleChecklistsChange = (id, field, value) => {
     setChecklists(
       checklists.map((item) =>
-        item.id === id ? { ...item, [field]: value } : item
+        item._id === id ? { ...item, [field]: value } : item
       )
     );
   };
 
   const handleRemoveChecklistsItem = (id) => {
-    setChecklists(checklists.filter((item) => item.id !== id));
+    setChecklists(checklists.filter((item) => item._id !== id));
   };
 
   const handleSave = async () => {
@@ -148,6 +152,8 @@ const EditTask = ({ taskId, onClose }) => {
       });
 
       toast.success("Task updated successfully!");
+      setCheck(!renderCheck);
+      setRenderCheck(!renderCheck);
       onClose();
     } catch (error) {
       console.error("Error updating task:", error);
@@ -221,7 +227,7 @@ const EditTask = ({ taskId, onClose }) => {
                     ? { value: assignedPerson, label: assignedPerson }
                     : ""
                 }
-                onChange={handleAssign}
+                onChange={() => handleAssign}
                 options={addedPeople.map((person) => ({
                   value: person.addEmail,
                   label: person.addEmail,
@@ -246,13 +252,17 @@ const EditTask = ({ taskId, onClose }) => {
               {checklists.length})<span>*</span>
             </label>
             {checklists.map((item) => (
-              <div key={item.id} className={styles.checklistItem}>
+              <div key={item._id} className={styles.checklistItem}>
                 <input
                   type="checkbox"
                   checked={item.checked}
                   style={{ accentColor: "#17A2B8" }}
                   onChange={(e) =>
-                    handleChecklistsChange(item.id, "checked", e.target.checked)
+                    handleChecklistsChange(
+                      item._id,
+                      "checked",
+                      e.target.checked
+                    )
                   }
                 />
                 <input
@@ -260,7 +270,7 @@ const EditTask = ({ taskId, onClose }) => {
                   value={item.description}
                   onChange={(e) =>
                     handleChecklistsChange(
-                      item.id,
+                      item._id,
                       "description",
                       e.target.value
                     )
@@ -270,7 +280,7 @@ const EditTask = ({ taskId, onClose }) => {
                 <img
                   src={Trash}
                   alt="trash icon"
-                  onClick={() => handleRemoveChecklistsItem(item.id)}
+                  onClick={() => handleRemoveChecklistsItem(item._id)}
                   className={styles.deleteButton}
                 />
               </div>
@@ -299,7 +309,6 @@ const EditTask = ({ taskId, onClose }) => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
