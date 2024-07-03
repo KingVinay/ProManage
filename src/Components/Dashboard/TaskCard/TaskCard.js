@@ -166,9 +166,11 @@ const TaskCard = ({
         {task.dueDate && (
           <div
             className={`${styles.dueDate} ${
-              new Date(task.dueDate) < new Date() && section !== "done"
+              section === "done"
+                ? styles.completed
+                : new Date(task.dueDate) < new Date()
                 ? styles.overdue
-                : styles.completed
+                : ""
             }`}
           >
             {formatDueDate(task.dueDate)}

@@ -4,13 +4,15 @@ import styles from "./TaskBox.module.css";
 import TaskCard from "../TaskCard/TaskCard";
 import CollapseAllIcon from "../../../Assets/collapseall.png";
 import AddIcon from "../../../Assets/plus.png";
+import AddTask from "../../AddTask/AddTask";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TaskBox = ({ section, tasks = [], allTasks = [], setTasks }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const token = localStorage.getItem("token");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCollapseAll = () => {
     setIsCollapsed(!isCollapsed);
@@ -100,19 +102,25 @@ const TaskBox = ({ section, tasks = [], allTasks = [], setTasks }) => {
     }
   };
 
-  const handleAddTask = () => {
-    // Logic to add a new task
-  };
-
   return (
     <div className={styles.taskBox}>
       <div className={styles.taskBoxHeader}>
         <span>{section.charAt(0).toUpperCase() + section.slice(1)}</span>
         <div>
           {section === "to do" && (
-            <button className={styles.addButton} onClick={handleAddTask}>
+            <button
+              className={styles.addButton}
+              onClick={() => setIsModalOpen(true)}
+            >
               <img src={AddIcon} alt="add" />
             </button>
+          )}
+          {isModalOpen && (
+            <AddTask
+              allTasks={allTasks}
+              setTasks={setTasks}
+              onClose={() => setIsModalOpen(false)}
+            />
           )}
           <img
             className={styles.collapseAllButton}
