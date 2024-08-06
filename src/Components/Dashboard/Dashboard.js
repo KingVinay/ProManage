@@ -7,9 +7,6 @@ import AddEmail from "./AddEmail/AddEmail";
 import people from "../../Assets/people.png";
 import format from "../../Utils/FormatDate";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 const Dashboard = () => {
   const userName = localStorage.getItem("name");
   const token = localStorage.getItem("token");

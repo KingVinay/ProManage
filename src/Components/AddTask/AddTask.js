@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import styles from "./AddTask.module.css";
 import Trash from "../../Assets/Delete.png";
 import Select from "react-select";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddTask = ({ allTasks, onClose }) => {
