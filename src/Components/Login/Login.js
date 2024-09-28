@@ -13,8 +13,8 @@ import eyeSlashIcon from "../../Assets/eyeslash.png";
 import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("guest@manage.com");
+  const [password, setPassword] = useState("asdf@1234");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 

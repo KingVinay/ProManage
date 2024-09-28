@@ -77,80 +77,88 @@ const Settings = () => {
     <div className={styles.settingsContainer}>
       <Navbar option="Settings" />
       <div className={styles.settingsContent}>
-        <span>Settings</span>
-        <form onSubmit={handleUpdate} className={styles.form}>
-          <div className={styles.inputGroup}>
-            <img src={userIcon} alt="user icon" />
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              onClick={() => handleFieldChange("name")}
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <img src={envelopeIcon} alt="envelope icon" />
-            <input
-              type="email"
-              placeholder="Update Email"
-              value={email}
-              autoComplete="new-email"
-              onChange={(e) => setEmail(e.target.value)}
-              onClick={() => handleFieldChange("email")}
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <img src={lockIcon} alt="lock icon" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Old Password"
-              value={oldPassword}
-              autoComplete="new-password"
-              onChange={(e) => setOldPassword(e.target.value)}
-              onClick={() => handleFieldChange("password")}
-            />
-            {showPassword ? (
-              <img
-                src={eyeIcon}
-                alt="eye icon"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            ) : (
-              <img
-                src={eyeSlashIcon}
-                alt="eye slash icon"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            )}
-          </div>
-          <div className={styles.inputGroup}>
-            <img src={lockIcon} alt="lock icon" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="New Password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              onClick={() => handleFieldChange("password")}
-            />
-            {showNewPassword ? (
-              <img
-                src={eyeIcon}
-                alt="eye icon"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-              />
-            ) : (
-              <img
-                src={eyeSlashIcon}
-                alt="eye slash icon"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-              />
-            )}
-          </div>
-          <button type="submit" className={styles.updateButton}>
-            Update
-          </button>
-        </form>
+        <>
+          {email === "guest@manage.com" ? (
+            <span>Guest Cannot Access Settings!</span>
+          ) : (
+            <>
+              <span>Settings</span>
+              <form onSubmit={handleUpdate} className={styles.form}>
+                <div className={styles.inputGroup}>
+                  <img src={userIcon} alt="user icon" />
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onClick={() => handleFieldChange("name")}
+                  />
+                </div>
+                <div className={styles.inputGroup}>
+                  <img src={envelopeIcon} alt="envelope icon" />
+                  <input
+                    type="email"
+                    placeholder="Update Email"
+                    value={email}
+                    autoComplete="new-email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    onClick={() => handleFieldChange("email")}
+                  />
+                </div>
+                <div className={styles.inputGroup}>
+                  <img src={lockIcon} alt="lock icon" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Old Password"
+                    value={oldPassword}
+                    autoComplete="new-password"
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    onClick={() => handleFieldChange("password")}
+                  />
+                  {showPassword ? (
+                    <img
+                      src={eyeIcon}
+                      alt="eye icon"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  ) : (
+                    <img
+                      src={eyeSlashIcon}
+                      alt="eye slash icon"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  )}
+                </div>
+                <div className={styles.inputGroup}>
+                  <img src={lockIcon} alt="lock icon" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="New Password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    onClick={() => handleFieldChange("password")}
+                  />
+                  {showNewPassword ? (
+                    <img
+                      src={eyeIcon}
+                      alt="eye icon"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                    />
+                  ) : (
+                    <img
+                      src={eyeSlashIcon}
+                      alt="eye slash icon"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                    />
+                  )}
+                </div>
+                <button type="submit" className={styles.updateButton}>
+                  Update
+                </button>
+              </form>
+            </>
+          )}
+        </>
       </div>
     </div>
   );
